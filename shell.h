@@ -9,10 +9,9 @@
 #include <string.h>
 
 #define MAX_CMD_LEN 1024
-
-/* Function prototypes */
+#define MAX_ARGS 64
 void execute_command(char *cmd, char *prog_name);
 ssize_t read_command(char *buffer, size_t size);
 void print_prompt(void);
 
-#endif /* SHELL_H */
+#endif
