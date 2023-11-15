@@ -1,36 +1,33 @@
 #include "shell.h"
 
 /**
- * execute_command - executes commands
- * @cmd: the command to be executed
- * @program_name: name of program for error messages
+ * execute_command - Executes a command
+ * @cmd: Command to execute
+ * @prog_name: Name of the program
  */
-void execute_command(char *cmd, char *program_name)
+void execute_command(char *cmd, char *prog_name)
 {
-	char *argv[2];
 	pid_t pid;
+	char *argv[2];
 	int status;
 
-	if (_strlen(cmd) == 0)
-		return;
 	argv[0] = cmd;
 	argv[1] = NULL;
 	pid = fork();
-	if (pid == -1)
-	{
-		perror(program_name);
-		return;
-	}
 	if (pid == 0)
 	{
 		if (execve(cmd, argv, NULL) == -1)
 		{
-			perror(program_name);
+			perror(prog_name);
 			exit(EXIT_FAILURE);
 		}
 	}
-	else
+	else if (pid > 0)
 	{
 		wait(&status);
+	}
+	else
+	{
+		perror(prog_name);
 	}
 }
