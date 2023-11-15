@@ -39,6 +39,7 @@ void execute_command(char *cmd_line, char *prog_name)
  */
 static void handle_builtin_commands(char **argv, char *prog_name)
 {
+	int j;
 	if (strcmp(argv[0], "exit") == 0)
 	{
 		exit(EXIT_SUCCESS);
