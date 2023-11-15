@@ -11,7 +11,8 @@
 #define MAX_CMD_LEN 1024
 #define MAX_ARGS 64
 void execute_command(char *cmd, char *prog_name);
-ssize_t read_command(char *buffer, size_t size);
+int read_command(char *cmd, char *prog_name);
 void print_prompt(void);
+int _strlen(char *s);
 
 #endif
