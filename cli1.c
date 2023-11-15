@@ -11,8 +11,9 @@
 int _putchar(char c);
 void _puts(char *str);
 int _strlen(char *s);
-void read_command(char *cmd);
+int read_command(char *cmd);
 void execute_command(char *cmd);
+int is_interactive(void);
 
 /**
  * _putchar - writes char to stdout
@@ -54,22 +55,21 @@ int _strlen(char *s)
 /**
  * read_command - reads a command from stdin
  * @cmd: Buffer to store the read command
+ * Return: 1 if successful, 0 on end-of-file, -1 on error
  */
-void read_command(char *cmd)
+int read_command(char *cmd)
 {
 	int len = read(STDIN_FILENO, cmd, MAX_CMD_LEN);
 
 	if (len == 0)
-	{
-		_putchar('\n');
-		exit(0);
-	}
+		return (0);
 	else if (len < 0)
 	{
 		perror("read");
-		exit(1);
+		return (-1);
 	}
 	/*cmd[len - 1] = '\0'; Remove newline character from command */
+	return (1);
 }
 /**
  * execute_command - executes the given command
@@ -102,18 +102,31 @@ void execute_command(char *cmd)
 		wait(NULL);
 }
 /**
- * main - Entry point for the simple shell
+ * is_interactive - checks if shell is running in interactive mode
+ * Return: 1 if interactive, 0 if not
+ */
+int is_interactive(void)
+{
+	return (isatty(STDIN_FILENO));
+}
+/**
+ * main - entry point for the simple shell
  * Return: Always 0 (Success)
  */
 int main(void)
 {
 	char cmd[MAX_CMD_LEN];
+	int read_status;
 
-	while (1)
-	{
+	if (is_interactive())
 		_puts(PROMPT);
-		read_command(cmd);
+	while ((read_status = read_command(cmd)) != 0)
+	{
+		if (read_status == -1)
+			break;
 		execute_command(cmd);
+		if (is_interactive())
+			_puts(PROMPT);
 	}
 	return (0);
 }
