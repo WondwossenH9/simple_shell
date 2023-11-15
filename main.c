@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	char cmd[MAX_CMD_LEN];
 	int read_status;
 
-	program_name = argv[0];
+	(void)argc;
 
 	while ((read_status = read_command(cmd, argv[0])) != 0)
 	{
