@@ -69,7 +69,7 @@ void read_command(char *cmd)
 		perror("read");
 		exit(1);
 	}
-	cmd[len - 1] = '\0'; /* Remove newline character from command */
+	/*cmd[len - 1] = '\0'; Remove newline character from command */
 }
 /**
  * execute_command - executes the given command
