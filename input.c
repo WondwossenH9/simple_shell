@@ -9,7 +9,6 @@
 int read_command(char *cmd, char *prog_name)
 {
 	ssize_t len;
-
 	(void)prog_name;
 
 	len = read(STDIN_FILENO, cmd, MAX_CMD_LEN);
