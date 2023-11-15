@@ -20,6 +20,8 @@ void execute_command(char *cmd_line, char *prog_name)
 		token = strtok(NULL, " ");
 	}
 	argv[i] = NULL;
+	if (strcmp(argv[0], "exit") == 0)
+		exit(EXIT_SUCCESS);
 	cmd_path = find_command_in_path(argv[0]);
 	if (!cmd_path)
 	{
@@ -42,7 +44,5 @@ void execute_command(char *cmd_line, char *prog_name)
 		free(cmd_path);
 	}
 	else
-	{
 		perror(prog_name);
-	}
 }
