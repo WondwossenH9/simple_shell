@@ -68,7 +68,7 @@ int read_command(char *cmd)
 		perror("read");
 		return (-1);
 	}
-	/*cmd[len - 1] = '\0'; Remove newline character from command */
+	cmd[len - 1] = '\0';
 	return (1);
 }
 /**
