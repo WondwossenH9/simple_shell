@@ -13,5 +13,6 @@ void execute_command(char *cmd_line, char *prog_name);
 int read_command(char *cmd, char *prog_name);
 void print_prompt(void);
 int _strlen(char *s);
+char *find_command_in_path(char *cmd);
 
 #endif
