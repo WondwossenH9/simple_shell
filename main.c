@@ -10,8 +10,9 @@ int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
-	shell_loop();
 
+	signal(SIGINT, handle_signal);
+	shell_loop();
 	return (EXIT_SUCCESS);
 }
 /**
@@ -27,7 +28,10 @@ void shell_loop(void)
 		fflush(stdout);
 		cmd = read_command();
 		if (cmd == NULL)
+		{
+			printf("\n");
 			break;
+		}
 		execute_command(cmd);
 		free(cmd);
 	} while (status);
