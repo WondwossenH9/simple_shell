@@ -1,22 +1,15 @@
 #include "shell.h"
 
 /**
- * print_error - Prints an error message
- * @cmd: Command that caused the error
+ * _strlen - Returns the length of a string
+ * @s: String to evaluate
+ * Return: Length of the string
  */
-void print_error(char *cmd)
+int _strlen(char *s)
 {
-	if (cmd != NULL)
-		fprintf(stderr, "%s: command not found\n", cmd);
-}
-/**
- * handle_signal - Handles the signal
- * @sig: Signal number
- */
-void handle_signal(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n$ ", 3);
-	}
+	int len = 0;
+
+	while (s[len])
+		len++;
+	return (len);
 }
