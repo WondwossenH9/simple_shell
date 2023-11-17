@@ -1,29 +1,49 @@
 #include "shell.h"
 
-/**
- * read_command - Reads a command from stdin
- * @cmd: Buffer to store the command
- * @prog_name: Name of the program (unused)
- * Return: 1 on success, 0 on EOF, -1 on error
- */
-int read_command(char *cmd, char *prog_name)
-{
-	ssize_t len;
-	(void)prog_name;
+#define BUFFER_SIZE 1024
 
-	len = read(STDIN_FILENO, cmd, MAX_CMD_LEN);
-	if (len <= 0)
-		return (len);
-	if (cmd[len - 1] == '\n')
-		cmd[len - 1] = '\0';
-	else
-		cmd[len] = '\0';
-	return (1);
-}
 /**
- * print_prompt - Prints the shell prompt
+ * _getline - Custom getline function to read a line from stdin
+ * @lineptr: Pointer to the buffer containing the line
+ * @n: Size of the buffer
+ * Return: number of chars read, including the newline, or -1 on failure
  */
-void print_prompt(void)
+ssize_t _getline(char **lineptr, size_t *n)
 {
-	write(STDOUT_FILENO, "$ ", 2);
+	static char buffer[BUFFER_SIZE];
+	static int buffer_pos;
+	static int buffer_end;
+	int len = 0;
+	char c;
+
+	if (*lineptr == NULL || *n == 0)
+	{
+		*n = BUFFER_SIZE;
+		*lineptr = malloc(*n);
+		if (*lineptr == NULL)
+			return (-1);
+	}
+	while (1)
+	{
+		if (buffer_pos >= buffer_end)
+		{
+			buffer_end = read(STDIN_FILENO, buffer, BUFFER_SIZE);
+			if (buffer_end <= 0)
+				return (-1);
+			buffer_pos = 0;
+		}
+		c = buffer[buffer_pos++];
+		if (c == '\n' || c == '\0')
+			break;
+		if (len >= *n - 1)
+		{
+			*n *= 2;
+			*lineptr = realloc(*lineptr, *n);
+			if (*lineptr == NULL)
+				return (-1);
+		}
+		(*lineptr)[len++] = c;
+	}
+	(*lineptr)[len] = '\0';
+	return (len);
 }
